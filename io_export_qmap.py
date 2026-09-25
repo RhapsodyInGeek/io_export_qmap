@@ -988,6 +988,10 @@ class ExportQuakeMap(bpy.types.Operator, ExportHelper):
                     self.process_mesh(obj, fw, template)
             for obj in bmodel_face_objs:
                 fw(self.entname(obj))
+                keys = obj.keys()
+                    for prop in keys:
+                        if isinstance(obj[prop], (int, float, str)): # no arrays
+                            fw(f'"{prop}" "{obj[prop]}"\n')
                 self.process_mesh(obj, fw, template)
         fw('}\n')
         for obj in light_objs:
